@@ -23,7 +23,7 @@ def main():
 
     with tempfile.NamedTemporaryFile(suffix=".py", mode="wt+") as fp:
 
-        # Write "if True:" lines to produce syntactially valid Python.
+        # Write "if True:" lines to produce syntactically valid Python.
         for i in range(n_fake_lines):
             prefix = 4 * i * " "
             fp.write(f"{prefix}if True:\n")
