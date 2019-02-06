@@ -56,8 +56,8 @@ To install, use::
 The ``black-macchiato`` command reads from standard input, and writes
 to standard output. Any command line flags are forwarded to ``black``.
 
-Alternatively, can invoke the module directly through the ``python``
-executable, which may be preferable depending on our setup. Use
+Alternatively, you can invoke the module directly through the ``python``
+executable, which may be preferable depending on your setup. Use
 ``python -m macchiato`` instead of ``black-macchiato`` in that case.
 
 Example::
