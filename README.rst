@@ -18,7 +18,7 @@ Why?
 
 Python code should be black, just like coffee. However, sometimes
 other people insist on adding milk for unexplicable reasons. Since
-`caffè latte`__ is undrinkable, you eventually settle for `Caffè
+`caffè latte`__ is undrinkable, you eventually settle for `caffè
 macchiato`__ as a compromise.
 
 __ https://en.wikipedia.org/wiki/Latte
