@@ -25,7 +25,7 @@ def macchiato(in_fp, out_fp, args=None):
     indent = len(first_line) - len(first_line.lstrip())
     n_fake_before, remainder = divmod(indent, 4)
     if remainder:
-        raise SystemExit("indent of first line must be a multiple of four")
+        raise ValueError("indent of first line must be a multiple of four")
     for i in range(n_fake_before):
         prefix = 4 * i * " "
         lines.insert(i, f"{prefix}if True:\n")
