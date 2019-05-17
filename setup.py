@@ -7,7 +7,7 @@ setup(
     author="wouter bolsterlee",
     author_email="wouter@bolsterl.ee",
     license="BSD License",
-    version="1.0.1",
+    version="1.1.0",
     py_modules=["macchiato"],
     install_requires=["black"],
     python_requires=">=3.6",
