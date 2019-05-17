@@ -1,3 +1,4 @@
+import itertools
 import sys
 import tempfile
 
@@ -52,6 +53,28 @@ def main():
                 print(line, end="")
 
     return exit_code
+
+
+def is_blank_string(s):
+    return s.isspace() or not s
+
+
+def count_surrounding_blank_lines(lines):
+    before = 0
+    after = 0
+    grouper = itertools.groupby(lines, is_blank_string)
+    try:
+        is_blank, group = next(grouper)
+    except StopIteration:
+        pass
+    else:
+        if is_blank:
+            before = len(list(group))
+
+    for is_blank, group in grouper:
+        after = len(list(group)) if is_blank else 0
+
+    return before, after
 
 
 if __name__ == "__main__":
