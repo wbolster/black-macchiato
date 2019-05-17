@@ -5,6 +5,9 @@ black-macchiato
 | I see some Python and I want it painted black
 | — *Mick Jagger (The Rolling Stones)*
 
+.. image:: https://travis-ci.org/wbolster/black-macchiato.svg?branch=master
+    :target: https://travis-ci.org/wbolster/black-macchiato
+
 What?
 =====
 
