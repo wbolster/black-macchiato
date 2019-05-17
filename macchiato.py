@@ -5,29 +5,40 @@ import tempfile
 import black
 
 
-def main():
+def macchiato(in_fp, out_fp, args=None):
+    if args is None:
+        args = []
 
     # Read input.
-    lines = sys.stdin.readlines()
-    non_blank_lines = [line for line in lines if line.strip()]
-    if not non_blank_lines:
-        for line in lines:
-            print(line, end="")
+    lines = in_fp.readlines()
+
+    # Detect blank lines and deal with completely blank input.
+    n_blank_before, n_blank_after = count_surrounding_blank_lines(lines)
+    until = len(lines) - n_blank_after
+    lines = lines[n_blank_before:until]
+    if not lines:
+        out_fp.write("\n" * n_blank_before)
         return 0
 
-    # Detect indentation.
-    first_line = non_blank_lines[0]
+    # Detect indentation. Add "if True:" lines if needed for valid syntax.
+    first_line = lines[0]
     indent = len(first_line) - len(first_line.lstrip())
-    n_fake_lines, remainder = divmod(indent, 4)
+    n_fake_before, remainder = divmod(indent, 4)
     if remainder:
         raise SystemExit("indent of first line must be a multiple of four")
+    for i in range(n_fake_before):
+        prefix = 4 * i * " "
+        lines.insert(i, f"{prefix}if True:\n")
 
-    with tempfile.NamedTemporaryFile(suffix=".py", mode="wt+") as fp:
+    # Detect an unclosed block at the end. Add ‘pass’ at the end of the line if
+    # needed for valid syntax.
+    last_line = lines[-1]
+    n_fake_after = 0
+    if last_line.rstrip().endswith(":"):
+        lines[-1] = last_line.rstrip() + "pass\n"
+        n_fake_after = 1
 
-        # Write "if True:" lines to produce syntactically valid Python.
-        for i in range(n_fake_lines):
-            prefix = 4 * i * " "
-            fp.write(f"{prefix}if True:\n")
+    with tempfile.NamedTemporaryFile(suffix=".py", mode="wt+", delete=False) as fp:
 
         # Copy the input.
         for line in lines:
@@ -36,7 +47,6 @@ def main():
         fp.flush()
 
         # Run black.
-        args = sys.argv[1:]
         if "--quiet" not in args:
             args.append("--quiet")
         args.append(fp.name)
@@ -49,8 +59,11 @@ def main():
             # Write output.
             fp.seek(0)
             formatted_lines = fp.readlines()
-            for line in formatted_lines[n_fake_lines:]:
-                print(line, end="")
+            out_fp.write("\n" * n_blank_before)
+            until = len(formatted_lines) - n_fake_after
+            for line in formatted_lines[n_fake_before:until]:
+                out_fp.write(line)
+            out_fp.write("\n" * n_blank_after)
 
     return exit_code
 
@@ -75,6 +88,16 @@ def count_surrounding_blank_lines(lines):
         after = len(list(group)) if is_blank else 0
 
     return before, after
+
+
+def main():
+    try:
+        args = sys.argv[1:]
+        exit_code = macchiato(sys.stdin, sys.stdout, args)
+    except ValueError as exc:
+        raise SystemExit(str(exc))
+    else:
+        raise SystemExit(exit_code)
 
 
 if __name__ == "__main__":
