@@ -72,7 +72,9 @@ Example::
 Integrating this piping of input and output with your editor is left
 as an exercise to the reader. For instance, Vim users can use visual
 line mode and type ``:!black-macchiato``, and Emacs users can use
-[`python-black.el`](https://github.com/wbolster/emacs-python-black).
+`python-black.el`__.
+
+__ https://github.com/wbolster/emacs-python-black
 
 License
 =======
