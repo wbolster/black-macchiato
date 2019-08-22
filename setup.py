@@ -6,6 +6,7 @@ import re, ast
 CURRENT_DIR = Path(__file__).parent
 
 
+# This function is borrowed from the setup.py at https://github.com/psf/black
 def get_version() -> str:
     macchiato_py = CURRENT_DIR / "macchiato.py"
     _version_re = re.compile(r"__version__\s+=\s+(?P<version>.*)")
