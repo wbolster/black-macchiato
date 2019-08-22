@@ -5,6 +5,9 @@ import tempfile
 import black
 
 
+__version__ = "1.1.0"
+
+
 def macchiato(in_fp, out_fp, args=None):
     if args is None:
         args = []
