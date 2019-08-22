@@ -1,6 +1,7 @@
-from setuptools import setup
+import ast
 from pathlib import Path
-import re, ast
+import re
+from setuptools import setup
 
 
 CURRENT_DIR = Path(__file__).parent
