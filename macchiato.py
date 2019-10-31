@@ -1,4 +1,5 @@
 import itertools
+import os
 import sys
 import tempfile
 
@@ -50,9 +51,16 @@ def macchiato(in_fp, out_fp, args=None):
         fp.flush()
 
         # Run black.
+        if "--config" not in args:
+            root = black.find_project_root((os.getcwd(),))
+            path = root / "pyproject.toml"
+            if path.is_file():
+                args.append("--config")
+                args.append(str(path))
         if "--quiet" not in args:
             args.append("--quiet")
         args.append(fp.name)
+
         try:
             exit_code = black.main(args=args)
         except SystemExit as exc:
