@@ -31,6 +31,7 @@ def test_count_surrounding_blank_lines(lines, before, after):
         ("elif x==5:\n", "elif x == 5:\n"),
         ("'''\n'''\n", '"""\n"""\n'),  # tokenize error handling
         ("    finally :\n", "    finally:\n"),
+        ("    def f():\n        pass\n", "    def f():\n        pass\n"),
     ],
 )
 def test_macchiato(input, expected):

@@ -81,9 +81,12 @@ def macchiato(in_fp, out_fp, args=None):
             # Write output.
             fp.seek(0)
             formatted_lines = fp.readlines()
-            out_fp.write("\n" * n_blank_before)
             until = len(formatted_lines) - n_fake_after
-            for line in formatted_lines[n_fake_before:until]:
+            formatted_lines = formatted_lines[n_fake_before:until]
+            fmt_n_blank_before, _ = count_surrounding_blank_lines(formatted_lines)
+            formatted_lines = formatted_lines[fmt_n_blank_before:]
+            out_fp.write("\n" * n_blank_before)
+            for line in formatted_lines:
                 out_fp.write(line)
             out_fp.write("\n" * n_blank_after)
 
