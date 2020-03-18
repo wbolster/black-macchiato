@@ -1,6 +1,7 @@
 import itertools
 import sys
 import tempfile
+import tokenize
 
 import black
 
@@ -32,6 +33,24 @@ def macchiato(in_fp, out_fp, args=None):
     for i in range(n_fake_before):
         prefix = 4 * i * " "
         lines.insert(i, f"{prefix}if True:\n")
+
+    # Handle else/elif/except/finally
+    try:
+        first_token = next(
+            tokenize.generate_tokens(iter([first_line.lstrip()]).__next__)
+        )
+    except tokenize.TokenError:
+        first_token = None
+    if first_token and first_token.type == tokenize.NAME:
+        name = first_token.string
+        if name in {"else", "elif"}:
+            lines.insert(n_fake_before, f"{indent * ' '}if True:\n")
+            lines.insert(n_fake_before + 1, f"{indent * ' '}    pass\n")
+            n_fake_before += 2
+        elif name in {"except", "finally"}:
+            lines.insert(n_fake_before, f"{indent * ' '}try:\n")
+            lines.insert(n_fake_before + 1, f"{indent * ' '}    pass\n")
+            n_fake_before += 2
 
     # Detect an unclosed block at the end. Add ‘pass’ at the end of the line if
     # needed for valid syntax.
