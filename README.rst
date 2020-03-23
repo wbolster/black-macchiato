@@ -79,6 +79,12 @@ __ https://github.com/wbolster/emacs-python-black
 History
 =======
 
+- 1.2.0 (2020-03-23)
+
+  - Handle else/elif/except/finally and indented functions better (`5`__)
+
+    __ https://github.com/wbolster/black-macchiato/pull/5
+
 - 1.1.0 (2019-05-17)
 
   - Handle lines ending with a colon
