@@ -76,6 +76,22 @@ line mode and type ``:!black-macchiato``, and Emacs users can use
 
 __ https://github.com/wbolster/emacs-python-black
 
+History
+=======
+
+- 1.1.0 (2019-05-17)
+
+  - Handle lines ending with a colon
+  - Add tests
+
+- 1.0.1 (2019-02-06)
+
+  - Add more metadata
+
+- 1.0.0 (2019-02-06)
+
+  - Initial release
+
 License
 =======
 
