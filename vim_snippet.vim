@@ -1,25 +1,21 @@
-function! s:RunBlackMacchiato(visual) range
+function! s:RunBlackMacchiato() range
     let cmd = "black-macchiato"
     if !executable(cmd)
-        echo "black-macchiato not found!"
+        echohl ErrorMsg
+        echom "black-macchiato not found!"
+        echohl None
         return
     endif
 
-    if a:visual
-        normal! gv
-    endif
-
-    let currentMode = mode()
-
-    if currentMode ==# "n"
-        silent execute ".!" . cmd
-    elseif currentMode ==# "v" || currentMode ==# "V"
-        silent execute "'<,'>!" . cmd
-    endif
+    silent execute a:firstline . "," . a:lastline."!" . cmd
 
     echo "Done formatting."
 
 endfunction
 
-autocmd FileType python xnoremap <buffer> <Leader>f :call <sid>RunBlackMacchiato(1)<cr>
-autocmd FileType python nnoremap <buffer> <Leader>f :call <sid>RunBlackMacchiato(0)<cr>
+" Create a command to call the black-macchiato function
+command -range BlackMacchiato <line1>,<line2>call <sid>RunBlackMacchiato()
+
+" Optionally add keyboard shortcuts to call the command in normal and visual modes
+autocmd FileType python xnoremap <buffer> <Leader>f :'<,'>BlackMacchiato<cr>
+autocmd FileType python nnoremap <buffer> <Leader>f :BlackMacchiato<cr>
