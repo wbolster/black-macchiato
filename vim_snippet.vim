@@ -7,7 +7,7 @@ function! s:RunBlackMacchiato() range
         return
     endif
 
-    silent execute a:firstline . "," . a:lastline."!" . cmd
+    silent execute a:firstline . "," . a:lastline . "!" . cmd
 
     echo "Done formatting."
 
