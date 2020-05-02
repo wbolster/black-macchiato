@@ -18,7 +18,7 @@ class WrapInfo(NamedTuple):
     n_blank_before: int = 0
     n_blank_after: int = 0
     n_fake_before: int = 0
-    n_fake_after: int = 0
+    trailing_fake_pass: bool = False
 
 
 def _indent_levels(line: str) -> int:
@@ -62,20 +62,6 @@ def _fake_before_lines(first_line: str) -> List[str]:
     return fake_lines
 
 
-def _fake_after_lines(last_line: str) -> List[str]:
-    """Construct the fake lines that should go after the text."""
-
-    lines = []
-
-    # Detect an unclosed block at the end. Add a ‘pass’ line if needed for valid syntax.
-    if last_line.rstrip().endswith(":"):
-        indent_levels = _indent_levels(last_line)
-        prefix = _single_indent * (indent_levels + 1)
-        lines.append(f"{prefix}pass\n")
-
-    return lines
-
-
 def wrap_lines(lines: List[str]) -> Tuple[List[str], WrapInfo]:
     """Wrap the input lines with fake text, to fake a complete source document."""
 
@@ -87,20 +73,22 @@ def wrap_lines(lines: List[str]) -> Tuple[List[str], WrapInfo]:
         wrap_info = WrapInfo(n_blank_before=n_blank_before, n_blank_after=n_blank_after)
         return lines, wrap_info
 
-    # Construct fake lines that need to surround the text for valid syntax.
-    first_line = lines[0]
-    fake_before_lines = _fake_before_lines(first_line)
+    # We may need some preceding fake lines and/or a trailing ``pass``.
+    fake_before_lines = _fake_before_lines(lines[0])
+    last_line = lines[-1].rstrip()
+    if last_line.endswith(":"):
+        lines[-1] = last_line + " pass"
+        trailing_fake_pass = True
+    else:
+        trailing_fake_pass = False
 
-    last_line = lines[-1]
-    fake_after_lines = _fake_after_lines(last_line)
-
-    lines = fake_before_lines + lines + fake_after_lines
-
+    # Return updated text along with info about what was changed.
+    lines = fake_before_lines + lines
     wrap_info = WrapInfo(
         n_blank_before=n_blank_before,
         n_blank_after=n_blank_after,
         n_fake_before=len(fake_before_lines),
-        n_fake_after=len(fake_after_lines),
+        trailing_fake_pass=trailing_fake_pass,
     )
     return lines, wrap_info
 
@@ -136,7 +124,7 @@ def format_lines(lines: List[str], black_args=None) -> List[str]:
 def unwrap_lines(lines: List[str], wrap_info: WrapInfo) -> List[str]:
     """Unwrap previously-wrapped text."""
 
-    until = len(lines) - wrap_info.n_fake_after
+    until = len(lines) - (1 if wrap_info.trailing_fake_pass else 0)
     lines = lines[wrap_info.n_fake_before : until]
 
     fmt_n_blank_before, _ = count_surrounding_blank_lines(lines)
