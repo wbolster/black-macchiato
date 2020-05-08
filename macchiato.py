@@ -9,7 +9,7 @@ import black
 
 __version__ = "1.2.0"
 
-_single_indent = " " * 4
+SINGLE_INDENT = " " * 4
 
 
 class WrapInfo(NamedTuple):
@@ -39,7 +39,7 @@ def _fake_before_lines(first_line: str) -> List[str]:
 
     # Handle regular indent
     for i in range(indent_levels):
-        prefix = _single_indent * i
+        prefix = SINGLE_INDENT * i
         fake_lines.append(f"{prefix}if True:\n")
 
     # Handle else/elif/except/finally
@@ -51,13 +51,13 @@ def _fake_before_lines(first_line: str) -> List[str]:
         first_token = None
     if first_token and first_token.type == tokenize.NAME:
         name = first_token.string
-        prefix = _single_indent * indent_levels
+        prefix = SINGLE_INDENT * indent_levels
         if name in {"else", "elif"}:
             fake_lines.append(f"{prefix}if True:\n")
-            fake_lines.append(f"{prefix}{_single_indent}pass\n")
+            fake_lines.append(f"{prefix}{SINGLE_INDENT}pass\n")
         elif name in {"except", "finally"}:
             fake_lines.append(f"{prefix}try:\n")
-            fake_lines.append(f"{prefix}{_single_indent}pass\n")
+            fake_lines.append(f"{prefix}{SINGLE_INDENT}pass\n")
 
     return fake_lines
 
