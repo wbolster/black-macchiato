@@ -1,4 +1,5 @@
 import itertools
+import os
 import sys
 import tempfile
 import tokenize
@@ -97,10 +98,11 @@ def format_lines(lines: List[str], black_args=None) -> List[str]:
     if black_args is None:
         black_args = []
 
-    with tempfile.NamedTemporaryFile(suffix=".py", mode="wt+", delete=False) as fp:
+    with tempfile.NamedTemporaryFile(
+        suffix=".py", dir=os.getcwd(), mode="wt+", delete=True
+    ) as fp:
         # Copy the input.
-        for line in lines:
-            fp.write(line)
+        fp.writelines(lines)
         fp.flush()
 
         # Run black.
