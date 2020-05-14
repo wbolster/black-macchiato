@@ -8,7 +8,7 @@ from typing import IO, Iterable, List, NamedTuple, Optional, Tuple, cast
 import black
 
 
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 
 SINGLE_INDENT = " " * 4
 

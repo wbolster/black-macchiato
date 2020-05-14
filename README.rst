@@ -79,6 +79,17 @@ __ https://github.com/wbolster/emacs-python-black
 History
 =======
 
+- 1.3.0 (2020-05-14)
+
+  - Refactor so that wrapping functionality can be reused more easily (`7`__)
+
+    __ https://github.com/wbolster/black-macchiato/pull/7
+
+  - Use project config file, if any (`4`__, `7`__)
+
+    __ https://github.com/wbolster/black-macchiato/pull/4
+    __ https://github.com/wbolster/black-macchiato/pull/7
+
 - 1.2.0 (2020-03-23)
 
   - Handle else/elif/except/finally and indented functions better (`5`__)
