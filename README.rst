@@ -90,6 +90,10 @@ History
     __ https://github.com/wbolster/black-macchiato/pull/4
     __ https://github.com/wbolster/black-macchiato/pull/7
 
+  - Improved Vim integration (`6`__)
+
+    __ https://github.com/wbolster/black-macchiato/pull/6
+
 - 1.2.0 (2020-03-23)
 
   - Handle else/elif/except/finally and indented functions better (`5`__)
