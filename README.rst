@@ -70,10 +70,10 @@ Example::
           print("hi")
 
 Integrating this piping of input and output with your editor is left
-as an exercise to the reader. For instance, Vim users can add `this
-snippet <vim_snippet.vim>`_ to their vimrc file, and Emacs users can
-use `python-black.el`__.
+as an exercise to the reader. For instance, Vim users can use
+`vim-black-macchiato`_, and Emacs users can use `python-black.el`__.
 
+__ https://github.com/smbl64/vim-black-macchiato
 __ https://github.com/wbolster/emacs-python-black
 
 History
