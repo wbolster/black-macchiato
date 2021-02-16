@@ -2,8 +2,8 @@
 black-macchiato
 ===============
 
-.. image:: https://travis-ci.org/wbolster/black-macchiato.svg?branch=master
-    :target: https://travis-ci.org/wbolster/black-macchiato
+.. image:: https://circleci.com/gh/wbolster/black-macchiato.svg?style=svg
+    :target: https://circleci.com/gh/wbolster/black-macchiato
 
 | I see some Python and I want it painted black
 | — *Mick Jagger (The Rolling Stones)*
