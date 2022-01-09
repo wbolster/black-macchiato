@@ -98,29 +98,32 @@ def format_lines(lines: List[str], black_args=None) -> List[str]:
     if black_args is None:
         black_args = []
 
-    with tempfile.NamedTemporaryFile(
-        suffix=".py", dir=os.getcwd(), mode="wt+", delete=True
-    ) as fp:
+    fp= tempfile.NamedTemporaryFile(
+        suffix=".py", dir=os.getcwd(), mode="wt+", delete=False
+    )
         # Copy the input.
-        fp.writelines(lines)
-        fp.flush()
+    fp.writelines(lines)
+    fp.flush()
 
-        # Run black.
-        if "--quiet" not in black_args:
-            black_args.append("--quiet")
-        black_args.append(fp.name)
+    # Run black.
+    if "--quiet" not in black_args:
+        black_args.append("--quiet")
+    black_args.append(fp.name)
 
-        try:
-            exit_code = black.main(args=black_args)
-        except SystemExit as exc:
-            exit_code = exc.code
+    try:
+        exit_code = black.main(args=black_args)
+    except SystemExit as exc:
+        exit_code = exc.code
 
-        if exit_code == 0:
-            # Write output.
-            fp.seek(0)
-            return cast(List[str], fp.readlines())
+    if exit_code == 0:
+        # Write output.
+        fp.seek(0)
+        lines = fp.readlines()
+        fp.close()
+        os.unlink(fp.name)
+        return cast(List[str], lines)
 
-        raise RuntimeError("black failed", exit_code)
+    raise RuntimeError("black failed", exit_code)
 
 
 def unwrap_lines(lines: List[str], wrap_info: WrapInfo) -> List[str]:
