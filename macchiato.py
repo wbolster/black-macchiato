@@ -42,6 +42,9 @@ def _fake_before_lines(first_line: str) -> List[str]:
     for i in range(indent_levels):
         prefix = SINGLE_INDENT * i
         fake_lines.append(f"{prefix}if True:\n")
+    if indent_levels:
+        prefix = SINGLE_INDENT * indent_levels
+        fake_lines.append(f"{prefix}pass\n")
 
     # Handle else/elif/except/finally
     try:
