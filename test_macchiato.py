@@ -32,7 +32,7 @@ def test_count_surrounding_blank_lines(lines, before, after):
         ("    if True:\n", "    if True:\n"),
         ("\n\n        x=3\n\n", "\n\n        x = 3\n\n"),
         ("elif x==5:\n", "elif x == 5:\n"),
-        ("'''\n'''\n", '"""\n"""\n'),  # tokenize error handling
+        ("'''\n'''\n", '""" """\n'),  # tokenize error handling
         ("    finally :\n", "    finally:\n"),
         ("    def f():\n        pass\n", "    def f():\n        pass\n"),
         ("    def f(a,\n          b):\n", "    def f(a, b):\n"),
